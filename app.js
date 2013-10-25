@@ -31,10 +31,9 @@ requirejs.config({
 require([
   "_",
   "$",
-  "three",
   "lib/terrain",
   "lib/canvas"
-], function(_, $, THREE, Terrain, Canvas) {
+], function(_, $, Terrain, Canvas) {
 
   var canvas, terrain;
 
@@ -43,10 +42,8 @@ require([
     canvas.render();
 
     terrain = new Terrain(canvas, {
-      size: 4
+      size: 32
     });
-
-    console.log(terrain);
   });
 
 });
