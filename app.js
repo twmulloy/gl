@@ -42,8 +42,11 @@ require([
     canvas.render();
 
     terrain = new Terrain(canvas, {
-      size: 32
+      size: 8
     });
+
+    terrain.generate();
+    terrain.render();
   });
 
 });
