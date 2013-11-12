@@ -8,7 +8,7 @@ define(["_", "three"], function(_, THREE) {
   "use strict";
 
   var opts = {
-    size: 10
+    size: 8
   };
 
   var map;
@@ -78,7 +78,7 @@ define(["_", "three"], function(_, THREE) {
       }
     }
 
-    this.square(corners);
+    this.square(corners, true);
   }
 
   /**
@@ -86,7 +86,6 @@ define(["_", "three"], function(_, THREE) {
    * @return {[type]} [description]
    */
   function diamond(corners, midpoint) {
-    console.log(corners, midpoint);
 
     var n, e, s, w;
 
@@ -111,6 +110,11 @@ define(["_", "three"], function(_, THREE) {
     };
 
     this.geometry.vertices[n.index].z = n.z;
+    this.geometry.vertices[e.index].z = e.z;
+    this.geometry.vertices[s.index].z = s.z;
+    this.geometry.vertices[w.index].z = w.z;
+
+
     this.square([
       corners[0],
       n,
@@ -118,7 +122,7 @@ define(["_", "three"], function(_, THREE) {
       midpoint
     ]);
 
-    this.geometry.vertices[e.index].z = e.z;
+    
     this.square([
       n,
       corners[1],
@@ -126,21 +130,21 @@ define(["_", "three"], function(_, THREE) {
       e
     ]);
 
-    this.geometry.vertices[s.index].z = s.z;
-    // this.square([
-    //   w,
-    //   midpoint,
-    //   corners[2],
-    //   s
-    // ]);
+    
+    this.square([
+      w,
+      midpoint,
+      corners[2],
+      s
+    ]);
 
-    this.geometry.vertices[w.index].z = w.z;
-    // this.square([
-    //   midpoint,
-    //   e,
-    //   s,
-    //   corners[3]
-    // ]);
+    
+    this.square([
+      midpoint,
+      e,
+      s,
+      corners[3]
+    ]);
 
 
   }
@@ -149,21 +153,20 @@ define(["_", "three"], function(_, THREE) {
    * square step fills in newly needed midpoints
    * @return {[type]} [description]
    */
-  function square(corners) {
+  function square(corners, diamond) {
 
     var midpoint = (corners[3].index + corners[0].index) / 2;
 
-    if(midpoint % 2 !== 0){
-      return;
-    }
-
-    console.log(corners, midpoint);
-
     this.geometry.vertices[midpoint].z = avg(corners, 'z'); 
+
+    // proceed to diamond pattern
+    if(!diamond){ return false; }
+
     this.diamond(corners, {
       index: midpoint,
       z: this.geometry.vertices[midpoint].z
     });
+
   }
 
   function render() {

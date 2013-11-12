@@ -42,7 +42,7 @@ require([
     canvas.render();
 
     terrain = new Terrain(canvas, {
-      size: 8
+      //size: 8
     });
 
     terrain.generate();
